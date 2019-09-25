@@ -1,13 +1,13 @@
 import random
 
 class Ability():
-    def __init__(self, name, attack_strength):
+    def __init__(self, name, attack_strength=20):
         self.name = name #str
-        self.max_damage = 20 #attack_strength #int
+        self.max_damage = attack_strength #int
 
             #creates random attack value
     def attack(self):
-        return random.randint(0,self.max_damage)
+        return random.randint(0, self.max_damage)
 
 class Armor():
     def __init__(self, name, max_block):
@@ -26,18 +26,16 @@ class Hero():
         self.abilities = []
         self.armors= []
     
+    #adds a new ability to self.abilities list
     def add_ability(self, ability):
-        new_ability = input("What's your new ability? ")
-        return self.abilities.append(new_ability)
+        #new_ability = input("What's your new ability? ")
+        return self.abilities.append(ability)
 
-    #TODO: Create The Attack Method- func should interate over abilities list calling Ability.attack() 
-    #for each ability in the list. Than add together all the randint values together to determine full
-    #damage. (test is already included)
+    #adds ability values together to get attack_value
     def attack(self):
-        count = 0
-        for num in self.abilities:
-            count += 1 
-        return Ability.attack(count)
+        for ability in self.abilities:
+            attack_value += ability.attack()
+        return attack_value
 
     def defend(self, incoming_damage):
         pass
@@ -55,6 +53,12 @@ class Hero():
 if __name__ == "__main__":
     # If you run this file from the terminal
     # this block is executed.
+    #help from jess as to how to let the user input their own abilities!
+    #you made the mistake of giving that option too early inside the function
+    #therefore creating a string instead of an object! strings are just "words"
+    #while objects are sorta like dictionaries in which each key holds it's own values
+    #ability_name = input("Enter a name")
+    #attack_value = int(input("Enter a value"))
     ability = Ability("Great Debugging", 50)
     another_ability = Ability("Smarty Pants", 90)
     hero = Hero("Grace Hopper", 200)
