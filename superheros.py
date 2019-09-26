@@ -66,9 +66,9 @@ class Hero():
         while self.is_alive():
             if opponent == self:
                 return "Draw!"
-            else: 
-                winner = self
-                return winner
+            else:
+                winner = self.name
+                return winner + " Won!"
 
 
 # tests your code!
