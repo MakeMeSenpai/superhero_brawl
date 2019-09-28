@@ -6,10 +6,15 @@ class Ability():
         self.name = name  # str
         self.max_damage = attack_strength  # int
 
-        # creates random attack value
+    # creates random attack value
     def attack(self):
         return random.randint(0, self.max_damage)
 
+class Weapon(Ability):
+    #returns a weaker attack when hero uses a weapon. 
+    def attack(self):
+        weapon_damage = random.randint(self.max_damage//2, self.max_damage) 
+        return weapon_damage
 
 class Armor():
     def __init__(self, name, max_block=20):
@@ -61,8 +66,6 @@ class Hero():
         pass
 
     def fight(self, opponent):  # opponent == hero class
-        # TODO: Fight each hero until a victor emerges.
-        # Print the victor's name to the screen.
         while self.is_alive():
             if opponent == self:
                 return "Draw!"
@@ -87,8 +90,8 @@ if __name__ == "__main__":
     ability2 = Ability("Super Eyes", 130)
     ability3 = Ability("Wizard Wand", 80)
     ability4 = Ability("Wizard Beard", 20)
+    #weapon1 = Weapon("Hammer", 50)
     hero1.add_ability(ability1)
     hero1.add_ability(ability2)
     hero2.add_ability(ability3)
     hero2.add_ability(ability4)
-    hero1.fight(hero2)
