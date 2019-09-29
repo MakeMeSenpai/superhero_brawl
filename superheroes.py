@@ -33,6 +33,9 @@ class Hero():
         self.current_health = self.starting_health  # int
         self.abilities = []
         self.armors = []
+        #added stuff
+        self.deaths = 0
+        self.kills = 0
 
     # adds a new ability to self.abilities list
     def add_ability(self, ability):
@@ -67,16 +70,31 @@ class Hero():
             return False
         else:
             return True
-        pass
 
     #determines if heros have different level of abilities, and determines a winner
     def fight(self, opponent):  # opponent == hero class
-        while self.is_alive():
+        kills = 0 
+        while self.is_alive():       
             if opponent == self:
                 return "Draw!"
-            else:
+            else:  
+                kills += 1 
                 winner = self.name
+                self.add_deaths(kills)
+                self.add_kill(kills)
                 return winner + " Won!"
+        #TODO: Refactor this method to update the
+        # number of kills the hero has when the opponent dies. 
+        # Also update the number of deaths for whoever dies in the fight  
+
+    #Update kills with num_kills
+    def add_kill(self, num_kills):
+        self.kills == num_kills
+
+    #Update deaths with num_deaths
+    def add_deaths(self, num_deaths):
+        self.deaths = num_deaths
+
 
 class Team(Hero):
     def __init__(self, name):
@@ -98,6 +116,29 @@ class Team(Hero):
     def view_all_heroes(self):
         for hero in self.heroes:
             print(hero.name)
+
+    #Battle each team against each other.
+    def attack(self, other_team):
+        opponent = random.choice(self.heroes)
+        self.fight(opponent)
+        # TODO: Randomly select a living hero from each team and have
+        # them fight until one or both teams have no surviving heroes.
+        # Hint: Use the fight method in the Hero class.
+
+    #Reset all heroes health to starting_health
+    def revive_heroes(self, health=100):
+        self.current_health = self.starting_health
+        # TODO: This method should reset all heroes health to their
+        # original starting value.
+
+    #Print team statistics  
+    def stats(self):
+        print()
+        # TODO: This method should print the ratio of kills/deaths for each
+        # member of the team to the screen.
+        # This data must be output to the console.
+        # Hint: Use the information stored in each hero.
+        pass
 
 # tests your code!
 if __name__ == "__main__":
