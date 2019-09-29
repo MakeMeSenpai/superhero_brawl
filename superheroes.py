@@ -33,7 +33,6 @@ class Hero():
         self.current_health = self.starting_health  # int
         self.abilities = []
         self.armors = []
-        #added stuff
         self.deaths = 0
         self.kills = 0
 
@@ -74,14 +73,17 @@ class Hero():
     #determines if heros have different level of abilities, and determines a winner
     def fight(self, opponent):  # opponent == hero class
         kills = 0 
+        death = 0
         while self.is_alive():       
             if opponent == self:
                 return "Draw!"
-            else:  
-                kills += 1 
+            else:
+                death += 1
+                if opponent.isalive == False:
+                    kills += 1
+                    self.add_kill(kills) 
                 winner = self.name
-                self.add_deaths(kills)
-                self.add_kill(kills)
+                self.add_deaths(death)
                 return winner + " Won!"
         #TODO: Refactor this method to update the
         # number of kills the hero has when the opponent dies. 
@@ -133,7 +135,9 @@ class Team(Hero):
 
     #Print team statistics  
     def stats(self):
-        print()
+        for hero in self.heroes:
+            print(f'''{hero.name}; HP: {hero.current_health}:{hero.starting_health} AC: 
+            {hero.abilities} DC: {hero.armors} KO: {hero.kills} PD: {hero.deaths}''')
         # TODO: This method should print the ratio of kills/deaths for each
         # member of the team to the screen.
         # This data must be output to the console.
@@ -161,4 +165,5 @@ if __name__ == "__main__":
     hero1.add_ability(ability2)
     hero2.add_ability(ability3)
     hero2.add_ability(ability4)
-    Team.view_all_heroes(Hero)
+    Team.view_all_heroes(hero1)
+    print(Team.stats)
