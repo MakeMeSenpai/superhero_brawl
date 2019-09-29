@@ -264,13 +264,13 @@ def test_team_hero():
     assert len(team.heroes) == 1
     assert team.heroes[0].name == "Jodie Foster"
 
-
+#Failed - fixed by replacing str Jodie Foster with obj var jodie
 def test_team_remove_hero():
     team = superheroes.Team("One")
     jodie = superheroes.Hero("Jodie Foster")
     team.add_hero(jodie)
     assert team.heroes[0].name == "Jodie Foster"
-    team.remove_hero("Jodie Foster")
+    team.remove_hero(jodie)
     assert len(team.heroes) == 0
 
 
@@ -287,7 +287,7 @@ def test_team_remove_empty_list():
     team = superheroes.Team("One")
     assert team.remove_hero("Athena") == 0
 
-
+#Failed -  fixed by changing in superheroes.py team.view_all_heroes hero in print to hero.name
 def test_print_heroes():
     team = superheroes.Team("One")
     jodie = superheroes.Hero("Jodie Foster")

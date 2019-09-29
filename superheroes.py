@@ -39,6 +39,7 @@ class Hero():
         #new_ability = input("What's your new ability? ")
         return self.abilities.append(ability)
 
+    # adds a new set of armor to self.armors list
     def add_armor(self, armor):
         return self.armors.append(armor)
 
@@ -49,15 +50,18 @@ class Hero():
             attack_value += ability.attack()
         return attack_value
 
+    #returns defended damage value
     def defend(self, incoming_damage):
         defended = incoming_damage
         for armor in self.armors:
             defended += armor.block()
         return defended
 
+    #removes health from attaked hero
     def take_damage(self, incoming_damage):
         self.current_health -= self.defend(incoming_damage)
-        
+
+    #checks if heros are still alive      
     def is_alive(self):
         if self.current_health <= 1:
             return False
@@ -65,6 +69,7 @@ class Hero():
             return True
         pass
 
+    #determines if heros have different level of abilities, and determines a winner
     def fight(self, opponent):  # opponent == hero class
         while self.is_alive():
             if opponent == self:
@@ -77,30 +82,22 @@ class Team(Hero):
     def __init__(self, name):
         self.name = name
         self.heroes = []
-        ''' Initialize your team with its team name'''
-        #TODO: Implement this constructor by assigning the name and heroes, which should be an empty list
 
+    #adds hero object to self.heroes list
     def add_hero(self, Hero):
         self.heroes.append(Hero)
-        '''Add Hero object to self.heroes.'''
-        # TODO: Add the Hero object that is passed in to the list of heroes in
-        # self.heroes
     
+    #removes hero object from self.heroes list, or 0 if hero is not found
     def remove_hero(self, name):
-        if self.name in self.heroes:
-            self.heroes.remove(self.name)
+        if name in self.heroes:
+            return self.heroes.remove(name)
         else:
             return 0
-        '''Remove hero from heroes list.
-        If Hero isn't found return 0.
-        '''
-        # TODO: Implement this method to remove the hero from the list given their name.
     
+    #prints out all heros in console
     def view_all_heroes(self):
         for hero in self.heroes:
-            print(hero)
-        '''Prints out all heroes to the console.'''
-        # TODO: Loop over the list of heroes and print their names to the terminal.
+            print(hero.name)
 
 # tests your code!
 if __name__ == "__main__":
@@ -123,3 +120,4 @@ if __name__ == "__main__":
     hero1.add_ability(ability2)
     hero2.add_ability(ability3)
     hero2.add_ability(ability4)
+    Team.view_all_heroes(Hero)
