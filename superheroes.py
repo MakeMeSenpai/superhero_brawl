@@ -1,6 +1,6 @@
 import random
 
-
+random.choice 
 class Ability():
     def __init__(self, name, attack_strength=20):
         self.name = name  # str
@@ -52,39 +52,41 @@ class Hero():
             attack_value += ability.attack()
         return attack_value
 
-    #returns defended damage value
-    def defend(self, incoming_damage):
-        defended = incoming_damage
+    #returns total defense (Thank You Gorge for the help in reunderstanding this funct purpose!)
+    def defend(self):
+        defended = 0
         for armor in self.armors:
             defended += armor.block()
         return defended
 
     #removes health from attaked hero
     def take_damage(self, incoming_damage):
-        self.current_health -= self.defend(incoming_damage)
+        takenDamage = incoming_damage - self.defend()
+        self.current_health -= takenDamage
 
     #checks if heros are still alive      
     def is_alive(self):
-        if self.current_health <= 1:
+        if self.current_health > 0:
             return False
-        else:
-            return True
+        return True
 
     #determines if heros have different level of abilities, and determines a winner
     def fight(self, opponent):  # opponent == hero class
-        kills = 0 
-        death = 0
-        while self.is_alive():       
-            if opponent == self:
-                return "Draw!"
-            else:
-                death += 1
-                if opponent.isalive == False:
-                    kills += 1
-                    self.add_kill(kills) 
-                winner = self.name
-                self.add_deaths(death)
-                return winner + " Won!"
+        # kills = 0 
+        # death = 0
+        if len(self.abilities) == 0 and len(opponent.abilities) == 0:
+            return "Draw!"
+        while self.is_alive() and opponent.is_alive():  
+            self.take_damage(opponent.attack())
+            opponent.take_damage(self.attack())
+
+            # death += 1
+            # if opponent.isalive == False:
+            #     kills += 1
+            #     self.add_kill(kills) 
+            # winner = self.name
+            # self.add_deaths(death)
+            # return winner + " Won!"
         #TODO: Refactor this method to update the
         # number of kills the hero has when the opponent dies. 
         # Also update the number of deaths for whoever dies in the fight  
@@ -98,7 +100,7 @@ class Hero():
         self.deaths = num_deaths
 
 
-class Team(Hero):
+class Team():
     def __init__(self, name):
         self.name = name
         self.heroes = []
@@ -122,14 +124,15 @@ class Team(Hero):
     #Battle each team against each other.
     def attack(self, other_team):
         opponent = random.choice(self.heroes)
-        self.fight(opponent)
+        return opponent
         # TODO: Randomly select a living hero from each team and have
         # them fight until one or both teams have no surviving heroes.
         # Hint: Use the fight method in the Hero class.
 
     #Reset all heroes health to starting_health
     def revive_heroes(self, health=100):
-        self.current_health = self.starting_health
+        for hero in self.heroes:
+            hero.current_health = hero.starting_health
         # TODO: This method should reset all heroes health to their
         # original starting value.
 
@@ -152,7 +155,7 @@ if __name__ == "__main__":
     # you made the mistake of giving that option too early inside the function
     # therefore creating a string instead of an object! strings are just "words"
     # while objects are sorta like dictionaries in which each key holds it's own values
-    #ability_name = input("Enter a name")
+    # ability_name = input("Enter a name")
     # attack value = int(input("Enter a value"))
     hero1 = Hero("Wonder Woman")
     hero2 = Hero("Dumbledore")
@@ -165,5 +168,9 @@ if __name__ == "__main__":
     hero1.add_ability(ability2)
     hero2.add_ability(ability3)
     hero2.add_ability(ability4)
-    Team.view_all_heroes(hero1)
-    print(Team.stats)
+
+# superheroes.py:126: in attack
+#   self.fight(opponent)
+# superheroes.py:78: in fight
+#   while self.is_alive():
+# Thanks Ben 
