@@ -52,7 +52,7 @@ class Hero():
             attack_value += ability.attack()
         return attack_value
 
-    #returns total defense (Thank You Gorge for the help in reunderstanding this funct purpose!)
+    #returns total defense (Thank You George for the help in reunderstanding this funct purpose!)
     def defend(self):
         defended = 0
         for armor in self.armors:
@@ -61,8 +61,11 @@ class Hero():
 
     #removes health from attaked hero
     def take_damage(self, incoming_damage):
-        takenDamage = incoming_damage - self.defend()
-        self.current_health -= takenDamage
+        # takenDamage = incoming_damage - self.defend()
+        # print(f'took {takenDamage} dmg')
+        # self.current_health -= takenDamage
+        # print(f'current health:  {self.current_health}')
+        self.current_health = self.current_health - self.defend()
 
     #checks if heros are still alive      
     def is_alive(self):
@@ -72,32 +75,35 @@ class Hero():
 
     #determines if heros have different level of abilities, and determines a winner
     def fight(self, opponent):  # opponent == hero class
-        # kills = 0 
-        # death = 0
         if len(self.abilities) == 0 and len(opponent.abilities) == 0:
             return "Draw!"
-        while self.is_alive() and opponent.is_alive():  
-            self.take_damage(opponent.attack())
-            opponent.take_damage(self.attack())
+        while True:  
+            if self.is_alive():
+                dmg = self.attack()
+                opponent.take_damage(dmg)
+            else: 
+                opponent.add_kills(1)
+                self.add_deaths(1)
+                break
 
-            # death += 1
-            # if opponent.isalive == False:
-            #     kills += 1
-            #     self.add_kill(kills) 
-            # winner = self.name
-            # self.add_deaths(death)
-            # return winner + " Won!"
+            if opponent.is_alive():
+                dmg = opponent.attack()
+                self.take_damage(dmg)
+            else: 
+                self.add_kills(1)
+                opponent.add_deaths(1)
+                break
         #TODO: Refactor this method to update the
         # number of kills the hero has when the opponent dies. 
         # Also update the number of deaths for whoever dies in the fight  
 
     #Update kills with num_kills
-    def add_kill(self, num_kills):
-        self.kills == num_kills
+    def add_kills(self, num_kills):
+        self.kills += num_kills
 
     #Update deaths with num_deaths
     def add_deaths(self, num_deaths):
-        self.deaths = num_deaths
+        self.deaths += num_deaths
 
 
 class Team():
@@ -121,10 +127,22 @@ class Team():
         for hero in self.heroes:
             print(hero.name)
 
+    def alive_heroes(self):
+        return [x for x in self.heroes if x.is_alive()]
+
     #Battle each team against each other.
     def attack(self, other_team):
-        opponent = random.choice(self.heroes)
-        return opponent
+        # for person in self.heroes:
+        #     if person.is_alive():
+        #         super_hero = random.choice(self.heroes)
+        #         villain = random.choice(other_team.heroes)
+        #         super_hero.fight(villain)
+
+        while len(self.alive_heroes()) > 0 and len(other_team.alive_heroes()) > 0:
+            self_champ = random.choice(self.alive_heroes())
+            opp_champ = random.choice(other_team.alive_heroes())
+            self_champ.fight(opp_champ)
+
         # TODO: Randomly select a living hero from each team and have
         # them fight until one or both teams have no surviving heroes.
         # Hint: Use the fight method in the Hero class.
@@ -140,7 +158,7 @@ class Team():
     def stats(self):
         for hero in self.heroes:
             print(f'''{hero.name}; HP: {hero.current_health}:{hero.starting_health} AC: 
-            {hero.abilities} DC: {hero.armors} KO: {hero.kills} PD: {hero.deaths}''')
+            {hero.abilities} DC: {hero.armors} KD: {hero.kills}:{hero.deaths}''')
         # TODO: This method should print the ratio of kills/deaths for each
         # member of the team to the screen.
         # This data must be output to the console.
