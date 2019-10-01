@@ -65,13 +65,15 @@ class Hero():
         # print(f'took {takenDamage} dmg')
         # self.current_health -= takenDamage
         # print(f'current health:  {self.current_health}')
-        self.current_health = self.current_health - self.defend()
+        defend = self.defend()
+        dmg = incoming_damage - defend
+        self.current_health -= dmg
 
     #checks if heros are still alive      
     def is_alive(self):
         if self.current_health > 0:
-            return False
-        return True
+            return True
+        return False
 
     #determines if heros have different level of abilities, and determines a winner
     def fight(self, opponent):  # opponent == hero class
