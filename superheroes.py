@@ -1,6 +1,24 @@
 import random
 
-random.choice 
+class Arena:
+    def __init__(self):
+        self.team_one = None
+        self.team_two = None
+
+    # creates a new ability using user input
+    def create_ability(self):
+        new_ability = input("New Ability? ")
+        Hero.add_ability(self, new_ability) 
+
+     def create_weapon(self):
+        '''Prompt user for Weapon information
+            return Weapon with values from user input.
+        '''
+        # TODO: This method will allow a user to create a weapon.
+        # Prompt the user for the necessary information to create a new weapon object.
+        # return the new weapon object.
+        pass
+
 class Ability():
     def __init__(self, name, attack_strength=20):
         self.name = name  # str
@@ -106,6 +124,14 @@ class Hero():
     #Update deaths with num_deaths
     def add_deaths(self, num_deaths):
         self.deaths += num_deaths
+
+    # Add weapon to self.abilities
+    def add_weapon(self, weapon):
+        self.abilities.append(weapon)
+        # TODO: This method will append the weapon object passed in as an
+        # argument to self.abilities.
+        # This means that self.abilities will be a list of
+        # abilities and weapons.
 
 
 class Team():
