@@ -10,7 +10,7 @@ class Arena:
         new_ability = input("New Ability? ")
         Hero.add_ability(self, new_ability) 
 
-     def create_weapon(self):
+    def create_weapon(self):
         '''Prompt user for Weapon information
             return Weapon with values from user input.
         '''
